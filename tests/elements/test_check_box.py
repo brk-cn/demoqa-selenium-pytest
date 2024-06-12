@@ -5,8 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 def test_check_box(driver):
     driver.get("https://demoqa.com/elements")
 
-    wait = WebDriverWait(driver, 10)
-    check_box_item = wait.until(EC.element_to_be_clickable((By.ID, "item-1")))
+    check_box_item = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "item-1")))
     check_box_item.click()
 
     expand_button = driver.find_element(By.CLASS_NAME, "rct-option-expand-all")
@@ -39,4 +38,5 @@ def test_check_box(driver):
     ]
 
     actual_items = [item.text for item in selected_items]
+
     assert actual_items == expected_items, f"Expected items: {expected_items}, Actual items: {actual_items}"
