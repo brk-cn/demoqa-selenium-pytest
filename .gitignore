@@ -1,5 +1,4 @@
-driver/
 venv/
 .pytest_cache
-tests/__pycache__/
-tests/elements/__pycache__
+__pycache__/
+*.pyc
