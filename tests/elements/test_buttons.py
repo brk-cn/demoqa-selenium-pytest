@@ -6,8 +6,8 @@ from selenium.webdriver.common.action_chains import ActionChains
 def test_buttons(driver):
     driver.get("https://demoqa.com/elements")
 
-    web_tables_item = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "item-4")))
-    web_tables_item.click()
+    buttons_item = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "item-4")))
+    buttons_item.click()
     driver.execute_script("window.scrollBy(0, 250)")
 
     actions = ActionChains(driver)
