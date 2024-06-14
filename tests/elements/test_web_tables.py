@@ -1,8 +1,8 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
-def test_check_box(driver):
+
+def test_web_tables(driver):
     driver.get("https://demoqa.com/elements")
 
     web_tables_item = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "item-3")))
