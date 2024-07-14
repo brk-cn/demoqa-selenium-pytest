@@ -1,4 +1,6 @@
 venv/
 .pytest_cache
 __pycache__/
+tests/elements/__pycache__/
+tests/forms/__pycache__/
 *.pyc
