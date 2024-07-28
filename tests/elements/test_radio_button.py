@@ -1,29 +1,38 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+import pytest
 
-def test_radio_button(driver):
-    driver.get("https://demoqa.com/elements")
+@pytest.mark.usefixtures("setup")
+class TestRadioButton:
 
-    radio_button_item = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "item-2")))
-    radio_button_item.click()
-    driver.execute_script("window.scrollBy(0, 250)")
+    def test_radio_button_yes(self):
+        self.driver.get("https://demoqa.com/radio-button")
 
-    yes_radio_label = driver.find_element(By.XPATH, "//label[@for='yesRadio']")
-    yes_radio_label.click()
+        yes_radio_label = self.driver.find_element(By.XPATH, "//label[@for='yesRadio']")
+        yes_radio_label.click()
 
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "text-success")))
-    spans = driver.find_elements(By.CLASS_NAME, "text-success")
-    actual_value = spans[0].text.strip()
-    
-    assert actual_value == "Yes", f"Expected value: Yes, Actual value: {actual_value}"
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "text-success")))
+        spans = self.driver.find_elements(By.CLASS_NAME, "text-success")
+        actual_value = spans[0].text.strip()
 
-    impressive_radio_label = driver.find_element(By.XPATH, "//label[@for='impressiveRadio']")
-    impressive_radio_label.click()
+        assert actual_value == "Yes"
 
-    WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "text-success")))
-    spans = driver.find_elements(By.CLASS_NAME, "text-success")
-    actual_value = spans[0].text.strip()
+    def test_radio_button_impressive(self):
+        self.driver.get("https://demoqa.com/radio-button")
 
-    assert actual_value == "Impressive", f"Expected value: Impressive, Actual value: {actual_value}"
+        impressive_radio_label = self.driver.find_element(By.XPATH, "//label[@for='impressiveRadio']")
+        impressive_radio_label.click()
+
+        WebDriverWait(self.driver, 10).until(EC.presence_of_element_located((By.CLASS_NAME, "text-success")))
+        spans = self.driver.find_elements(By.CLASS_NAME, "text-success")
+        actual_value = spans[0].text.strip()
+
+        assert actual_value == "Impressive"
+
+    def test_radio_button_no(self):
+        self.driver.get("https://demoqa.com/radio-button")
+
+        no_radio_input = self.driver.find_element(By.ID, "noRadio")
+
+        assert not no_radio_input.is_enabled()

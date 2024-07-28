@@ -1,30 +1,37 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
+import pytest
 
-def test_buttons(driver):
-    driver.get("https://demoqa.com/elements")
+@pytest.mark.usefixtures("setup")
+class TestButtons:
 
-    buttons_item = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "item-4")))
-    buttons_item.click()
-    driver.execute_script("window.scrollBy(0, 250)")
+    def test_double_click_me(self):
+        self.driver.get("https://demoqa.com/buttons")
 
-    actions = ActionChains(driver)
+        actions = ActionChains(self.driver)
 
-    double_click_btn = driver.find_element(By.ID, 'doubleClickBtn')
-    actions.double_click(double_click_btn).perform()
+        double_click_btn = self.driver.find_element(By.ID, 'doubleClickBtn')
+        actions.double_click(double_click_btn).perform()
 
-    right_click_btn = driver.find_element(By.ID, 'rightClickBtn')
-    actions.context_click(right_click_btn).perform()
+        double_click_message = self.driver.find_element(By.ID, 'doubleClickMessage').text
+        assert double_click_message == "You have done a double click"
 
-    click_me_btn = driver.find_element(By.XPATH, '//button[text()="Click Me"]')
-    click_me_btn.click()
+    def test_right_click_me(self):
+        self.driver.get("https://demoqa.com/buttons")
 
-    double_click_message = driver.find_element(By.ID, 'doubleClickMessage').text
-    right_click_message = driver.find_element(By.ID, 'rightClickMessage').text
-    click_me_message = driver.find_element(By.ID, 'dynamicClickMessage').text
+        actions = ActionChains(self.driver)
 
-    assert double_click_message == "You have done a double click", "Double Click Test Failed"
-    assert right_click_message == "You have done a right click", "Right Click Test Failed"
-    assert click_me_message == "You have done a dynamic click", "Click Me Test Failed"
+        right_click_btn = self.driver.find_element(By.ID, 'rightClickBtn')
+        actions.context_click(right_click_btn).perform()
+
+        right_click_message = self.driver.find_element(By.ID, 'rightClickMessage').text
+        assert right_click_message == "You have done a right click"
+
+    def test_click_me(self):
+        self.driver.get("https://demoqa.com/buttons")
+
+        click_me_btn = self.driver.find_element(By.XPATH, '//button[text()="Click Me"]')
+        click_me_btn.click()
+
+        click_me_message = self.driver.find_element(By.ID, 'dynamicClickMessage').text
+        assert click_me_message == "You have done a dynamic click"

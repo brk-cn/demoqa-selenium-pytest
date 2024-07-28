@@ -1,26 +1,29 @@
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
-import requests
+import pytest
 
-def test_links(driver):
-    driver.get("https://demoqa.com/elements")
-    driver.execute_script("window.scrollBy(0, 100)")
-    links_item = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.ID, "item-5")))
-    links_item.click()
-    driver.execute_script("window.scrollBy(0, 250)")
+@pytest.mark.usefixtures("setup")
+class TestLinks:
 
-    home_link = driver.find_element(By.ID, "simpleLink")
-    home_link.click()
-    driver.switch_to.window(driver.window_handles[1])
-    assert driver.current_url == "https://demoqa.com/"
-    driver.close()
-    driver.switch_to.window(driver.window_handles[0])
+    def test_simple_link(self):
+        self.driver.get("https://demoqa.com/links")
 
-    dynamic_link = driver.find_element(By.ID, "dynamicLink")
-    dynamic_link.click()
-    driver.switch_to.window(driver.window_handles[1])
-    assert driver.current_url == "https://demoqa.com/"
-    driver.close()
-    driver.switch_to.window(driver.window_handles[0])
+        simple_link = self.driver.find_element(By.ID, "simpleLink")
+        simple_link.click()
+
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        assert self.driver.current_url == "https://demoqa.com/"
+
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
+
+    def test_dynamic_link(self):
+        self.driver.get("https://demoqa.com/links")
+
+        dynamic_link = self.driver.find_element(By.ID, "dynamicLink")
+        dynamic_link.click()
+
+        self.driver.switch_to.window(self.driver.window_handles[1])
+        assert self.driver.current_url == "https://demoqa.com/"
+        
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
