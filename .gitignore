@@ -3,4 +3,5 @@ venv/
 __pycache__/
 tests/elements/__pycache__/
 tests/forms/__pycache__/
+tests/alerts_frame_and_windows/__pycache__/
 *.pyc
